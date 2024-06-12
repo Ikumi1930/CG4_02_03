@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
+using TMPro;
 
 public class GameManagerScript : MonoBehaviour
 {
     public GameObject block;
+    public GameObject coin;
     public GameObject goal;
+    public TextMeshProUGUI scoreText;
+    public static int score = 0;
+    
     int[,] map;
     // Start is called before the first frame update
     void Start()
@@ -18,9 +23,9 @@ public class GameManagerScript : MonoBehaviour
             {1,0,0,0,0,0,0,0,0,1,},
             {1,0,0,0,0,0,0,0,0,1,},
             {1,0,0,0,0,0,0,0,0,1,},
-            {1,0,0,0,0,0,0,0,2,1,},
-            {1,0,0,0,0,0,0,0,0,1,},
-            {1,0,0,0,0,0,0,0,0,1,},
+            {1,0,0,0,0,0,0,3,2,1,},
+            {1,0,0,0,0,0,0,1,0,1,},
+            {1,0,0,3,3,0,1,0,0,1,},
             {1,1,1,1,1,1,1,1,1,1,},
 
         };
@@ -44,6 +49,11 @@ public class GameManagerScript : MonoBehaviour
                     goal.transform.position = position;
                 }
 
+                //コイン
+                if ((map[y, x] == 3))
+                {
+                    Instantiate(coin, position, Quaternion.identity);
+                }
 
 
             }
@@ -54,16 +64,17 @@ public class GameManagerScript : MonoBehaviour
         // Update is called once per frame
         void Update()
         {
-            //ゲームクリアでスペースキーでタイトル移項
-            if(GoalScript.isGameClear == true)
+
+        scoreText.text = "SCORE" + score;
+
+        //ゲームクリアでスペースキーでタイトル移項
+        if (GoalScript.isGameClear == true)
             {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     SceneManager.LoadScene("TitleScene");
                 }
             }
-
-
 
         }
     
